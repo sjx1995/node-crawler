@@ -1,4 +1,4 @@
-# i-mo-yu
+# mo-yoo
 
 ## Project setup
 ```
