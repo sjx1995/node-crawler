@@ -21,3 +21,8 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# crawler
+/crawler/dist
+/crawler/node_modules
+/crawler/data
