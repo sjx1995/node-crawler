@@ -1,10 +1,10 @@
 /*
  * @Author: Sunly
  * @Date: 2021-04-13 08:51:40
- * @LastEditTime: 2021-04-13 19:23:05
+ * @LastEditTime: 2021-04-14 12:14:08
  * @LastEditors: Sunly
- * @Description:
- * @FilePath: \web-crawler-typescript\src\analyzers\weiboAnalyzer.ts
+ * @Description: 获取微博热搜
+ * @FilePath: \mo-yoo\crawler\src\analyzers\weiboAnalyzer.ts
  */
 import cheerio from "cheerio";
 
@@ -26,8 +26,8 @@ export class WeiboAnalyzer implements AnalyzerType {
 		tds.map((index, element) => {
 			const title = $(element).children("a").text();
 			const metrics = $(element).children("span").text();
-			let link = $(element).children("a").attr("href");
-			hotData.push({ title, metrics, link: link ? `https://s.weibo.com${link}` : "" });
+			let link = `https://s.weibo.com${$(element).children("a").attr("href")}`;
+			hotData.push({ title, metrics, link });
 		});
 		return hotData;
 	}

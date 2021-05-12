@@ -1,14 +1,14 @@
 /*
  * @Author: Sunly
- * @Date: 2021-04-13 08:02:12
- * @LastEditTime: 2021-04-15 18:51:17
+ * @Date: 2021-04-14 12:06:40
+ * @LastEditTime: 2021-04-14 12:17:20
  * @LastEditors: Sunly
- * @Description: 获取爱范儿最近信息
- * @FilePath: \mo-yoo\crawler\src\analyzers\ifanrAnalyzer.ts
+ * @Description: 获取人人都是产品经理最新文章
+ * @FilePath: \mo-yoo\crawler\src\analyzers\woshipmAnalyzer.ts
  */
 import cheerio from "cheerio";
 
-interface AnalyzerType {
+interface WoshipmAnalyzerType {
 	getJsonData(html: string): HotData[];
 }
 
@@ -17,13 +17,13 @@ export interface HotData {
 	link: string;
 }
 
-export class IfanrAnalyzer implements AnalyzerType {
+export class WoshipmAnalyzer implements WoshipmAnalyzerType {
 	getJsonData(html: string) {
 		const hotData: HotData[] = [];
 		const $ = cheerio.load(html);
-		const articles = $(".collection-list .article-item .article-info h3 a");
+		const articles = $(".js-postlist .postlist-item .content h2.post-title a");
 		articles.map((index, element) => {
-			const title = $(element).text();
+			const title = $(element).attr("title") as string;
 			const link = $(element).attr("href") as string;
 			hotData.push({ title, link });
 		});

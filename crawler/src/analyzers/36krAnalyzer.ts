@@ -1,10 +1,10 @@
 /*
  * @Author: Sunly
  * @Date: 2021-04-13 19:01:34
- * @LastEditTime: 2021-04-13 19:20:19
+ * @LastEditTime: 2021-04-14 12:14:49
  * @LastEditors: Sunly
- * @Description:
- * @FilePath: \web-crawler-typescript\src\analyzers\36kr.ts
+ * @Description: 获取36氪最近信息
+ * @FilePath: \mo-yoo\crawler\src\analyzers\36krAnalyzer.ts
  */
 import cheerio from "cheerio";
 
@@ -26,8 +26,8 @@ export class KrAnalyzer implements KrAnalyzerType {
 		);
 		articles.map((index, element) => {
 			const title = $(element).text();
-			const link = $(element).attr("href");
-			hotData.push({ title, link: link ? `https://36kr.com${link}` : "" });
+			const link = `https://36kr.com${$(element).attr("href")}`;
+			hotData.push({ title, link });
 		});
 		return hotData;
 	}

@@ -1,10 +1,10 @@
 /*
  * @Author: Sunly
  * @Date: 2021-04-13 08:22:03
- * @LastEditTime: 2021-04-13 18:40:19
+ * @LastEditTime: 2021-04-15 18:50:55
  * @LastEditors: Sunly
- * @Description:
- * @FilePath: \web-crawler-typescript\src\zhihuAnalyzer.ts
+ * @Description: 获取知乎热搜
+ * @FilePath: \mo-yoo\crawler\src\analyzers\zhihuAnalyzer.ts
  */
 import cheerio from "cheerio";
 
