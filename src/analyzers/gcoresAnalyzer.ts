@@ -1,10 +1,10 @@
 /*
  * @Author: Sunly
  * @Date: 2021-04-14 17:11:01
- * @LastEditTime: 2021-04-15 18:51:44
+ * @LastEditTime: 2021-05-21 19:52:45
  * @LastEditors: Sunly
- * @Description:
- * @FilePath: \mo-yoo\crawler\src\analyzers\gcoresAnalyzer.ts
+ * @Description: 获取机核最新文章
+ * @FilePath: \mo-yoo\server\src\analyzers\gcoresAnalyzer.ts
  */
 import cheerio from "cheerio";
 

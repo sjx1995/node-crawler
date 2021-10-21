@@ -1,10 +1,10 @@
 /*
  * @Author: Sunly
  * @Date: 2021-04-15 19:35:13
- * @LastEditTime: 2021-04-15 19:52:16
+ * @LastEditTime: 2021-05-21 19:53:07
  * @LastEditors: Sunly
- * @Description:
- * @FilePath: \mo-yoo\crawler\src\analyzers\smzdmAnalyzer.ts
+ * @Description: 获取什么值得买最新优惠
+ * @FilePath: \mo-yoo\server\src\analyzers\smzdmAnalyzer.ts
  */
 import cheerio from "cheerio";
 
