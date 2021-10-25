@@ -1,36 +1,21 @@
 /*
+ * @Description:
  * @Author: Sunly
- * @Date: 2021-05-13 18:44:44
- * @LastEditTime: 2021-05-26 19:03:54
- * @LastEditors: Sunly
- * @Description: express入口
- * @FilePath: \server\src\index.ts
+ * @Date: 2021-10-21 20:15:52
  */
-import express from "express";
-import bodyParser from "body-parser";
-import cookieSession from "cookie-session";
-import "./controllers/login";
-import router from "./router";
+import { app } from "./server/routes";
+import { sequelize } from "./sequelize/index";
 
-const app = express();
+async function init() {
+  try {
+    await sequelize.authenticate();
+    console.log("数据库连接测试通过");
+    app.listen(9000, () => {
+      console.log(`server is running on http://localhost:${9000}`);
+    });
+  } catch (e) {
+    console.log("数据库连接测试失败", e);
+  }
+}
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// parse application/json
-// app.use(bodyParser.json());
-
-app.use(
-	cookieSession({
-		name: "session",
-		keys: [`cookie_${new Date()}`],
-		// Cookie Options
-		maxAge: 24 * 60 * 60 * 1000 // 24 hours
-	})
-);
-
-app.use(router);
-
-app.listen(3000, () => {
-	console.log("server is running on http://localhost:3000");
-});
+init();
