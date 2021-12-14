@@ -4,18 +4,22 @@
  * @Date: 2021-10-21 00:26:26
  */
 import { sequelize } from "../../sequelize";
+import { Op } from "sequelize";
 import { axios } from "../httpRequest/axios";
 import { websitesConfig } from "../../config/websites.config";
+import dayjs from "../../utils/localTime";
 import type { IContent } from "../../types/models.data";
 import type { ISspaiRes } from "../../types/httpRes.data";
-import dayjs from "../../utils/localTime";
 
 let timeLimit = 0;
 
 const sspai = websitesConfig.find((website) => website.name === "少数派")!;
 const { id, url } = sspai;
 
-export async function getData() {
+export async function getSspaiData(
+  startTime?: string,
+  limit?: string
+): Promise<IContent[]> {
   if (url) {
     let data: ISspaiRes[] = [];
 
@@ -27,22 +31,21 @@ export async function getData() {
     }
 
     // get content from database
-    const contents = (await sequelize.models.content.findAll({
+    const contents = (await sequelize.models.content.findOne({
       where: {
         websiteId: id,
       },
       order: [["updatedAt", "DESC"]],
-      limit: 10,
-    })) as unknown as IContent[];
+    })) as unknown as IContent;
     let latestContentId = -1;
     let latestContentTime = 0;
-    if (contents.length) {
-      latestContentId = Number(contents[0].link.split("/").slice(-1)[0]);
-      latestContentTime = dayjs(contents[0].createdAt).unix();
+    if (contents) {
+      latestContentId = Number(contents.link.split("/").slice(-1)[0]);
+      latestContentTime = dayjs(contents.createdAt).unix();
     }
 
     // filter new content
-    const newContents = [];
+    const newContents: Omit<IContent, "id">[] = [];
     if (data.length) {
       for (const item of data) {
         if (
@@ -70,8 +73,25 @@ export async function getData() {
         await sequelize.models.content.bulkCreate(newContents.reverse());
       }
     }
-
-    return [...newContents, ...contents].splice(0, 10);
   }
-  return [];
+
+  // query condition
+  let queryLimit = typeof limit === "string" ? Number(limit) : 10;
+  if (queryLimit > 10 || queryLimit <= 0) queryLimit = 10;
+  let startTimeValue = typeof startTime === "string" ? Number(startTime) : 0;
+  const queryStartTime = dayjs(
+    dayjs(startTimeValue).isValid() ? startTimeValue : 0
+  ).format("YYYY-MM-DD HH:mm:ss");
+
+  const res = (await sequelize.models.content.findAll({
+    where: {
+      websiteId: id,
+      updatedAt: {
+        [Op.gt]: queryStartTime,
+      },
+    },
+    order: [["updatedAt", "DESC"]],
+    limit: queryLimit,
+  })) as unknown as IContent[];
+  return res;
 }

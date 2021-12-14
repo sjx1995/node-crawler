@@ -16,6 +16,7 @@ export const websitesConfig = [
   {
     id: 2,
     name: "爱范儿",
+    url: "https://www.ifanr.com",
   },
   {
     id: 3,
